@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+.pnp.*
+.yarn/*
+
+# Environment
+.env
+.env.local
+.env.*.local
+*.env
+
+# Convex
+.env.local
+.env.*.local
+packages/convex/convex/_generated/
+
+# Expo
+apps/mobile/.expo/
+apps/mobile/dist/
+apps/mobile/*.jks
+apps/mobile/*.p8
+apps/mobile/*.p12
+apps/mobile/*.key
+apps/mobile/*.mobileprovision
+apps/mobile/*.orig.*
+apps/mobile/web-build/
+
+# OS
+.DS_Store
+*.log

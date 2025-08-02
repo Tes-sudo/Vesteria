@@ -1,0 +1,23 @@
+{
+  "name": "convex-mobile-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/dev.js",
+    "build": "pnpm -r build",
+    "clean": "pnpm -r clean && rm -rf node_modules",
+    "type-check": "pnpm -r type-check",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "concurrently": "^8.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@10.8.0"
+}
