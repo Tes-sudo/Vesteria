@@ -1,6 +1,6 @@
-# Convex + React Native Monorepo
+# Vesteria - Convex + React Native Monorepo
 
-A modern monorepo setup combining Convex backend with React Native (Obytes starter) and magic link authentication.
+A modern real-time monorepo combining Convex backend with React Native (Obytes starter template) featuring magic link authentication and instant data synchronization.
 
 ## 🚀 Quick Start
 
@@ -15,24 +15,33 @@ A modern monorepo setup combining Convex backend with React Native (Obytes start
 
 1. **Clone and install dependencies:**
 ```bash
-git clone <your-repo>
-cd convex-mobile-monorepo
+git clone https://github.com/Tes-sudo/Vesteria.git
+cd Vesteria
 pnpm install
 ```
 
-2. **Configure Convex:**
-   - Get your Convex deployment URL from the Convex dashboard
-   - Update `apps/mobile/.env.development` with your `EXPO_PUBLIC_CONVEX_URL`
-   - Update `packages/convex/.env.local` with your `AUTH_RESEND_KEY`
+2. **Configure environment:**
+   - Copy `.env.development` to `.env.local` in `apps/mobile/`
+   - Update with your values if needed (Convex URL is already configured)
+   - For authentication, add your Resend API key to `packages/convex/.env.local`
 
 3. **Start development:**
 ```bash
-# Start both backend and mobile app
+# Start both Convex backend and React Native app
 pnpm dev
 
 # Or start individually
 pnpm --filter @monorepo/convex dev  # Convex backend
 pnpm --filter @monorepo/mobile start # React Native app
+```
+
+4. **Run on device:**
+```bash
+# iOS
+pnpm --filter @monorepo/mobile ios
+
+# Android
+pnpm --filter @monorepo/mobile android
 ```
 
 ## 📁 Project Structure
@@ -61,13 +70,37 @@ convex-mobile-monorepo/
 
 ## 📱 Features
 
-- ✅ pnpm workspaces monorepo
-- ✅ Convex real-time backend
-- ✅ React Native with Obytes starter
-- ✅ Magic link authentication
-- ✅ Shared TypeScript types
-- ✅ Hot reload development
-- ✅ Metro bundler monorepo support
+### Core Stack
+- ✅ **pnpm workspaces monorepo** - Efficient dependency management
+- ✅ **Convex real-time backend** - Instant data synchronization
+- ✅ **React Native + Expo** - Using Obytes starter template
+- ✅ **TypeScript** - End-to-end type safety
+- ✅ **Magic link authentication** - Passwordless auth via Resend
+
+### Real-time Capabilities
+- 🚀 **Live data updates** - Changes sync instantly across all clients
+- 🔄 **Optimistic updates** - UI updates immediately, rollback on error
+- 📊 **Reactive queries** - Data automatically refreshes when changed
+- 🔐 **Real-time auth state** - Login/logout syncs across devices
+
+### Developer Experience
+- 🔥 **Hot reload** - Both backend and mobile app
+- 📦 **Shared types** - TypeScript types shared between packages
+- 🛠️ **Metro monorepo support** - Seamless development
+- 🎨 **NativeWind v4** - TailwindCSS for React Native
+- 🧪 **Testing setup** - Jest + React Native Testing Library
+
+## 🛠️ Tech Stack
+
+- **Backend**: Convex (real-time database + serverless functions)
+- **Mobile**: React Native 0.79.4 + Expo SDK 53
+- **UI**: NativeWind v4 (TailwindCSS) + React Native UI components
+- **State Management**: 
+  - Server state: Convex reactive queries
+  - Local state: Zustand (UI only)
+  - Forms: React Hook Form + Zod
+- **Authentication**: Convex Auth + Resend (magic links)
+- **Development**: TypeScript, ESLint, Prettier, Husky
 
 ## 🧪 Development
 
@@ -78,13 +111,34 @@ pnpm type-check
 # Run linting
 pnpm lint
 
+# Run tests
+pnpm test
+
 # Clean all dependencies
 pnpm clean
+
+# Check Convex logs
+cd packages/convex && npx convex logs
 ```
 
 ## 📚 Documentation
 
-For detailed setup and configuration, see the [full guide](./convex-react-native-monorepo-guide.md).
+- [Full Setup Guide](./convex-react-native-monorepo-guide.md) - Detailed setup instructions
+- [Migration Guide](./convex-migration-guide.md) - Migrating from REST to Convex
+- [Claude Rules](./.claude/rules.md) - AI assistant guidelines
+- [CLAUDE.md](./CLAUDE.md) - Project-specific AI guidance
+
+## 🔑 Key Files
+
+- `packages/convex/convex/` - Convex backend functions
+  - `schema.ts` - Database schema
+  - `auth.ts` - Authentication setup
+  - `posts.ts` - Example CRUD operations
+- `apps/mobile/src/`
+  - `app/_layout.tsx` - App entry with providers
+  - `lib/convex.ts` - Convex client setup
+  - `lib/auth/convex-auth.tsx` - Auth hooks
+  - `api/posts/convex-posts.ts` - Data fetching hooks
 
 ## 🤝 Contributing
 

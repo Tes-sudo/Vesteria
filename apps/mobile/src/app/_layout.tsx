@@ -1,6 +1,10 @@
 // Import  global CSS file
 import '../../global.css';
 
+// Polyfill for Convex in React Native
+import { polyfillWebCrypto } from 'expo-standard-web-crypto';
+polyfillWebCrypto();
+
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
@@ -10,10 +14,13 @@ import { StyleSheet } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { ConvexProvider } from 'convex/react';
+import { ConvexAuthProvider } from '@convex-dev/auth/react';
 
 import { APIProvider } from '@/api';
 import { hydrateAuth, loadSelectedTheme } from '@/lib';
 import { useThemeConfig } from '@/lib/use-theme-config';
+import { convex } from '@/lib/convex';
 
 export { ErrorBoundary } from 'expo-router';
 
@@ -51,14 +58,18 @@ function Providers({ children }: { children: React.ReactNode }) {
       className={theme.dark ? `dark` : undefined}
     >
       <KeyboardProvider>
-        <ThemeProvider value={theme}>
-          <APIProvider>
-            <BottomSheetModalProvider>
-              {children}
-              <FlashMessage position="top" />
-            </BottomSheetModalProvider>
-          </APIProvider>
-        </ThemeProvider>
+        <ConvexProvider client={convex}>
+          <ConvexAuthProvider>
+            <ThemeProvider value={theme}>
+              <APIProvider>
+                <BottomSheetModalProvider>
+                  {children}
+                  <FlashMessage position="top" />
+                </BottomSheetModalProvider>
+              </APIProvider>
+            </ThemeProvider>
+          </ConvexAuthProvider>
+        </ConvexProvider>
       </KeyboardProvider>
     </GestureHandlerRootView>
   );
