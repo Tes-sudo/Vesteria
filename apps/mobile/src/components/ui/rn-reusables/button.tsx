@@ -1,4 +1,3 @@
-import * as Slot from '@rn-primitives/slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 import { Pressable, type PressableProps } from 'react-native';
@@ -44,9 +43,8 @@ const Button = React.forwardRef<
   React.ElementRef<typeof Pressable>,
   ButtonProps
 >(({ className, variant, size, asChild = false, ...props }, ref) => {
-  const Component = asChild ? Slot.Pressable : Pressable;
   return (
-    <Component
+    <Pressable
       className={cn(buttonVariants({ variant, size, className }))}
       ref={ref}
       role="button"

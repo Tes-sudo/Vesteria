@@ -25,6 +25,14 @@ apps/mobile/*.mobileprovision
 apps/mobile/*.orig.*
 apps/mobile/web-build/
 
+# Metro
+.metro-health-check*
+.metro-cache/
+*.cache
+*.cache.json
+metro-cache/
+haste-map-*
+
 # OS
 .DS_Store
 *.log

@@ -5,6 +5,7 @@ export * from './rn-reusables';
 export {
   ActivityIndicator,
   Pressable,
+  SafeAreaView,
   ScrollView,
   TouchableOpacity,
   View,

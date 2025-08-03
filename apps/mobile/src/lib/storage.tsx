@@ -1,6 +1,8 @@
 import { MMKV } from 'react-native-mmkv';
 
-export const storage = new MMKV();
+export const storage = new MMKV({
+  id: 'vesteria-storage',
+});
 
 export function getItem<T>(key: string): T | null {
   const value = storage.getString(key);

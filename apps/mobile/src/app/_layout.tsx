@@ -18,6 +18,7 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 import { hydrateAuth, loadSelectedTheme } from '@/lib';
 import { convex } from '@/lib/convex';
+import { storage } from '@/lib/storage';
 import { useThemeConfig } from '@/lib/use-theme-config';
 polyfillWebCrypto();
 
@@ -80,7 +81,14 @@ function Providers({ children }: { children: React.ReactNode }) {
     >
       <KeyboardProvider>
         <ConvexProvider client={convex}>
-          <ConvexAuthProvider client={convex}>
+          <ConvexAuthProvider 
+            client={convex}
+            storage={{
+              getItem: async (key: string) => storage.getString(key) ?? null,
+              setItem: async (key: string, value: string) => storage.set(key, value),
+              removeItem: async (key: string) => storage.delete(key),
+            }}
+          >
             <ThemeProvider value={theme}>
               <BottomSheetModalProvider>
                 {children}

@@ -1,4 +1,3 @@
-import * as Slot from '@rn-primitives/slot';
 import * as React from 'react';
 import { Text as RNText, type TextProps as RNTextProps } from 'react-native';
 
@@ -17,12 +16,11 @@ type TextProps = RNTextProps & {
 const Text = React.forwardRef<React.ElementRef<typeof RNText>, TextProps>(
   ({ className, asChild = false, tx, txOptions, children, ...props }, ref) => {
     const textClass = React.useContext(TextClassContext);
-    const Component = asChild ? Slot.Text : RNText;
 
     const content = tx ? translate(tx, txOptions) : children;
 
     return (
-      <Component
+      <RNText
         className={cn(
           'text-base text-foreground web:select-text',
           textClass,
@@ -32,7 +30,7 @@ const Text = React.forwardRef<React.ElementRef<typeof RNText>, TextProps>(
         {...props}
       >
         {content}
-      </Component>
+      </RNText>
     );
   }
 );
