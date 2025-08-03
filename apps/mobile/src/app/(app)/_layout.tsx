@@ -3,11 +3,7 @@ import { Link, Redirect, SplashScreen, Tabs } from 'expo-router';
 import React, { useCallback, useEffect } from 'react';
 
 import { Pressable, Text } from '@/components/ui';
-import {
-  Feed as FeedIcon,
-  Settings as SettingsIcon,
-  Style as StyleIcon,
-} from '@/components/ui/icons';
+// TODO: Replace with lucide-react-native or @tabler/icons-react-native
 import { useIsFirstTime } from '@/lib';
 
 export default function TabLayout() {
@@ -36,7 +32,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Feed',
-          tabBarIcon: ({ color }) => <FeedIcon color={color} />,
+          tabBarIcon: ({ color }) => <Text style={{ color }}>📰</Text>,
           headerRight: () => <CreateNewPostLink />,
           tabBarButtonTestID: 'feed-tab',
         }}
@@ -47,7 +43,7 @@ export default function TabLayout() {
         options={{
           title: 'Style',
           headerShown: false,
-          tabBarIcon: ({ color }) => <StyleIcon color={color} />,
+          tabBarIcon: ({ color }) => <Text style={{ color }}>🎨</Text>,
           tabBarButtonTestID: 'style-tab',
         }}
       />
@@ -56,7 +52,7 @@ export default function TabLayout() {
         options={{
           title: 'Settings',
           headerShown: false,
-          tabBarIcon: ({ color }) => <SettingsIcon color={color} />,
+          tabBarIcon: ({ color }) => <Text style={{ color }}>⚙️</Text>,
           tabBarButtonTestID: 'settings-tab',
         }}
       />

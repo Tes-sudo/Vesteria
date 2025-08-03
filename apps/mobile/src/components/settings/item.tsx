@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { Pressable, Text, View } from '@/components/ui';
-import { ArrowRight } from '@/components/ui/icons';
 import type { TxKeyPath } from '@/lib';
 
 type ItemProps = {
@@ -26,9 +25,7 @@ export const Item = ({ text, value, icon, onPress }: ItemProps) => {
       <View className="flex-row items-center">
         <Text className="text-neutral-600 dark:text-white">{value}</Text>
         {isPressable && (
-          <View className="pl-2">
-            <ArrowRight />
-          </View>
+          <Text className="pl-2 text-neutral-600 dark:text-white">›</Text>
         )}
       </View>
     </Pressable>

@@ -1,5 +1,3 @@
-const colors = require('./src/components/ui/colors');
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   // NOTE: Update this to include the paths to all of your component files.
@@ -12,8 +10,7 @@ module.exports = {
         inter: ['Inter'],
       },
       colors: {
-        ...colors,
-        // React Native Reusables colors
+        // React Native Reusables colors (using CSS variables)
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

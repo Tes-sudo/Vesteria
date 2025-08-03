@@ -1,26 +1,21 @@
 import { useAuthActions } from '@convex-dev/auth/react';
 import { Env } from '@env';
-import { useColorScheme } from 'nativewind';
 
 import { Item } from '@/components/settings/item';
 import { ItemsContainer } from '@/components/settings/items-container';
 import { LanguageItem } from '@/components/settings/language-item';
 import { ThemeItem } from '@/components/settings/theme-item';
 import {
-  colors,
   FocusAwareStatusBar,
   ScrollView,
   Text,
   View,
 } from '@/components/ui';
-import { Github, Rate, Share, Support, Website } from '@/components/ui/icons';
+// TODO: Add icon library like lucide-react-native
 import { translate } from '@/lib';
 
 export default function Settings() {
   const { signOut } = useAuthActions();
-  const { colorScheme } = useColorScheme();
-  const iconColor =
-    colorScheme === 'dark' ? colors.neutral[400] : colors.neutral[500];
   return (
     <>
       <FocusAwareStatusBar />
@@ -43,17 +38,14 @@ export default function Settings() {
           <ItemsContainer title="settings.support_us">
             <Item
               text="settings.share"
-              icon={<Share color={iconColor} />}
               onPress={() => {}}
             />
             <Item
               text="settings.rate"
-              icon={<Rate color={iconColor} />}
               onPress={() => {}}
             />
             <Item
               text="settings.support"
-              icon={<Support color={iconColor} />}
               onPress={() => {}}
             />
           </ItemsContainer>
@@ -63,12 +55,10 @@ export default function Settings() {
             <Item text="settings.terms" onPress={() => {}} />
             <Item
               text="settings.github"
-              icon={<Github color={iconColor} />}
               onPress={() => {}}
             />
             <Item
               text="settings.website"
-              icon={<Website color={iconColor} />}
               onPress={() => {}}
             />
           </ItemsContainer>

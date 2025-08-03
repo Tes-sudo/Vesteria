@@ -33,7 +33,7 @@ pnpm dev  # Runs both Convex backend and React Native app
 - 🌗 **Dark Mode** - System-aware theming  
 - 🌍 **i18n** - Multi-language with RTL
 - 📝 **Forms** - React Hook Form + Zod
-- 🧩 **30+ Components** - Production-ready UI
+- 🧩 **Clean slate** - Old components removed, use RN Reusables as needed
 - 🧪 **Testing** - Jest + RNTL configured
 
 ### New Additions
@@ -75,6 +75,7 @@ pnpm dev  # Runs both Convex backend and React Native app
 - ✅ Deep linking setup
 - ⚠️ Needs Resend API key to work
 - 📊 Auth security: 4/10 (see assessment)
+- ✅ UI components: Only RN Reusables (Button, Input, Card, Label, Text)
 
 ## 📄 License
 

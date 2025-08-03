@@ -1,7 +1,6 @@
-import React from 'react';
+import * as React from 'react';
+import { Alert } from 'react-native';
 
-import type { OptionType } from '@/components/ui';
-import { Options, useModal } from '@/components/ui';
 import type { ColorSchemeType } from '@/lib';
 import { translate, useSelectedTheme } from '@/lib';
 
@@ -9,43 +8,37 @@ import { Item } from './item';
 
 export const ThemeItem = () => {
   const { selectedTheme, setSelectedTheme } = useSelectedTheme();
-  const modal = useModal();
 
-  const onSelect = React.useCallback(
-    (option: OptionType) => {
-      setSelectedTheme(option.value as ColorSchemeType);
-      modal.dismiss();
-    },
-    [setSelectedTheme, modal]
-  );
+  const handlePress = React.useCallback(() => {
+    // Simple alert picker for now - replace with proper modal later
+    Alert.alert(
+      'Select Theme',
+      '',
+      [
+        { text: translate('settings.theme.system'), onPress: () => setSelectedTheme('system') },
+        { text: translate('settings.theme.light'), onPress: () => setSelectedTheme('light') },
+        { text: translate('settings.theme.dark'), onPress: () => setSelectedTheme('dark') },
+        { text: 'Cancel', style: 'cancel' },
+      ]
+    );
+  }, [setSelectedTheme]);
 
-  const themes = React.useMemo(
-    () => [
-      { label: `${translate('settings.theme.dark')} 🌙`, value: 'dark' },
-      { label: `${translate('settings.theme.light')} 🌞`, value: 'light' },
-      { label: `${translate('settings.theme.system')} ⚙️`, value: 'system' },
-    ],
-    []
-  );
-
-  const theme = React.useMemo(
-    () => themes.find((t) => t.value === selectedTheme),
-    [selectedTheme, themes]
-  );
+  const getThemeLabel = () => {
+    switch (selectedTheme) {
+      case 'light':
+        return translate('settings.theme.light');
+      case 'dark':
+        return translate('settings.theme.dark');
+      default:
+        return translate('settings.theme.system');
+    }
+  };
 
   return (
-    <>
-      <Item
-        text="settings.theme.title"
-        value={theme?.label}
-        onPress={modal.present}
-      />
-      <Options
-        ref={modal.ref}
-        options={themes}
-        onSelect={onSelect}
-        value={theme?.value}
-      />
-    </>
+    <Item
+      text="settings.theme.title"
+      value={getThemeLabel()}
+      onPress={handlePress}
+    />
   );
 };
