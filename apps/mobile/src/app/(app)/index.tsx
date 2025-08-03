@@ -3,17 +3,17 @@ import React from 'react';
 
 import type { Post } from '@/api';
 import { usePosts } from '@/api';
-import { Card } from '@/components/card';
+import { PostCard } from '@/components/card';
 import { EmptyList, FocusAwareStatusBar, Text, View } from '@/components/ui';
 
 export default function Feed() {
-  const { data, isPending, isError } = usePosts();
+  const { data, isLoading, error } = usePosts();
   const renderItem = React.useCallback(
-    ({ item }: { item: Post }) => <Card {...item} />,
+    ({ item }: { item: Post }) => <PostCard {...item} />,
     []
   );
 
-  if (isError) {
+  if (error) {
     return (
       <View>
         <Text> Error Loading data </Text>
@@ -27,7 +27,7 @@ export default function Feed() {
         data={data}
         renderItem={renderItem}
         keyExtractor={(_, index) => `item-${index}`}
-        ListEmptyComponent={<EmptyList isLoading={isPending} />}
+        ListEmptyComponent={<EmptyList isLoading={isLoading} />}
         estimatedItemSize={300}
       />
     </View>

@@ -1,36 +1,39 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import type { SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
-import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
+import { Controller, useForm } from 'react-hook-form';
+import { KeyboardAvoidingView, View } from 'react-native';
 import * as z from 'zod';
 
-import { Button, ControlledInput, Text, View } from '@/components/ui';
+import { Button, Input, Label, Text } from './ui';
 
 const schema = z.object({
-  name: z.string().optional(),
   email: z
     .string({
       required_error: 'Email is required',
     })
     .email('Invalid email format'),
-  password: z
-    .string({
-      required_error: 'Password is required',
-    })
-    .min(6, 'Password must be at least 6 characters'),
 });
 
 export type FormType = z.infer<typeof schema>;
 
 export type LoginFormProps = {
   onSubmit?: SubmitHandler<FormType>;
+  isLoading?: boolean;
 };
 
-export const LoginForm = ({ onSubmit = () => {} }: LoginFormProps) => {
-  const { handleSubmit, control } = useForm<FormType>({
+export const LoginForm = ({
+  onSubmit = () => {},
+  isLoading = false,
+}: LoginFormProps) => {
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormType>({
     resolver: zodResolver(schema),
   });
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -46,38 +49,47 @@ export const LoginForm = ({ onSubmit = () => {} }: LoginFormProps) => {
             Sign In
           </Text>
 
-          <Text className="mb-6 max-w-xs text-center text-gray-500">
-            Welcome! 👋 This is a demo login screen! Feel free to use any email
-            and password to sign in and try it out.
+          <Text className="mb-6 max-w-xs text-center text-muted-foreground">
+            Welcome! 👋 Enter your email address and we'll send you a magic link
+            to sign in.
           </Text>
         </View>
 
-        <ControlledInput
-          testID="name"
-          control={control}
-          name="name"
-          label="Name"
-        />
+        <View className="mb-6">
+          <Label nativeID="email" className="mb-2">
+            Email
+          </Label>
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                testID="email-input"
+                placeholder="Enter your email"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                autoCapitalize="none"
+                keyboardType="email-address"
+              />
+            )}
+          />
+          {errors.email && (
+            <Text className="mt-1 text-sm text-destructive">
+              {errors.email.message}
+            </Text>
+          )}
+        </View>
 
-        <ControlledInput
-          testID="email-input"
-          control={control}
-          name="email"
-          label="Email"
-        />
-        <ControlledInput
-          testID="password-input"
-          control={control}
-          name="password"
-          label="Password"
-          placeholder="***"
-          secureTextEntry={true}
-        />
         <Button
           testID="login-button"
-          label="Login"
           onPress={handleSubmit(onSubmit)}
-        />
+          disabled={isLoading}
+        >
+          <Text className="font-semibold text-primary-foreground">
+            {isLoading ? 'Sending...' : 'Send Magic Link'}
+          </Text>
+        </Button>
       </View>
     </KeyboardAvoidingView>
   );

@@ -1,4 +1,4 @@
-/* eslint-disable react/react-in-jsx-scope */
+import { useAuthActions } from '@convex-dev/auth/react';
 import { Env } from '@env';
 import { useColorScheme } from 'nativewind';
 
@@ -14,10 +14,10 @@ import {
   View,
 } from '@/components/ui';
 import { Github, Rate, Share, Support, Website } from '@/components/ui/icons';
-import { translate, useAuth } from '@/lib';
+import { translate } from '@/lib';
 
 export default function Settings() {
-  const signOut = useAuth.use.signOut();
+  const { signOut } = useAuthActions();
   const { colorScheme } = useColorScheme();
   const iconColor =
     colorScheme === 'dark' ? colors.neutral[400] : colors.neutral[500];
