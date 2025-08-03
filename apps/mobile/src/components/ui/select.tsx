@@ -17,10 +17,10 @@ import { tv } from 'tailwind-variants';
 import colors from '@/components/ui/colors';
 import { CaretDown } from '@/components/ui/icons';
 
-import type { InputControllerType } from './input';
+// import type { InputControllerType } from './input';
 import { useModal } from './modal';
 import { Modal } from './modal';
-import { Text } from './text';
+import { Text } from './rn-reusables';
 
 const selectTv = tv({
   slots: {
@@ -143,9 +143,11 @@ export interface SelectProps {
   placeholder?: string;
   testID?: string;
 }
-interface ControlledSelectProps<T extends FieldValues>
-  extends SelectProps,
-    InputControllerType<T> {}
+interface ControlledSelectProps<T extends FieldValues> extends SelectProps {
+  name: string;
+  control: any;
+  rules?: any;
+}
 
 export const Select = (props: SelectProps) => {
   const {

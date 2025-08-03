@@ -1,4 +1,4 @@
-/* eslint-disable react/no-unstable-nested-components */
+import { useConvexAuth } from 'convex/react';
 import { Link, Redirect, SplashScreen, Tabs } from 'expo-router';
 import React, { useCallback, useEffect } from 'react';
 
@@ -8,26 +8,26 @@ import {
   Settings as SettingsIcon,
   Style as StyleIcon,
 } from '@/components/ui/icons';
-import { useAuth, useIsFirstTime } from '@/lib';
+import { useIsFirstTime } from '@/lib';
 
 export default function TabLayout() {
-  const status = useAuth.use.status();
+  const { isAuthenticated, isLoading } = useConvexAuth();
   const [isFirstTime] = useIsFirstTime();
   const hideSplash = useCallback(async () => {
     await SplashScreen.hideAsync();
   }, []);
   useEffect(() => {
-    if (status !== 'idle') {
+    if (!isLoading) {
       setTimeout(() => {
         hideSplash();
       }, 1000);
     }
-  }, [hideSplash, status]);
+  }, [hideSplash, isLoading]);
 
   if (isFirstTime) {
     return <Redirect href="/onboarding" />;
   }
-  if (status === 'signOut') {
+  if (!isLoading && !isAuthenticated) {
     return <Redirect href="/login" />;
   }
   return (
@@ -68,7 +68,7 @@ const CreateNewPostLink = () => {
   return (
     <Link href="/feed/add-post" asChild>
       <Pressable>
-        <Text className="px-3 text-primary-300">Create</Text>
+        <Text className="text-primary-300 px-3">Create</Text>
       </Pressable>
     </Link>
   );

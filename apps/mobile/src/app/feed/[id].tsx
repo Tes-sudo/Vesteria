@@ -12,12 +12,9 @@ import {
 export default function Post() {
   const local = useLocalSearchParams<{ id: string }>();
 
-  const { data, isPending, isError } = usePost({
-    //@ts-ignore
-    variables: { id: local.id },
-  });
+  const { data, isLoading, error } = usePost(local.id);
 
-  if (isPending) {
+  if (isLoading) {
     return (
       <View className="flex-1 justify-center  p-3">
         <Stack.Screen options={{ title: 'Post', headerBackTitle: 'Feed' }} />
@@ -26,7 +23,7 @@ export default function Post() {
       </View>
     );
   }
-  if (isError) {
+  if (error) {
     return (
       <View className="flex-1 justify-center p-3">
         <Stack.Screen options={{ title: 'Post', headerBackTitle: 'Feed' }} />
@@ -40,8 +37,8 @@ export default function Post() {
     <View className="flex-1 p-3 ">
       <Stack.Screen options={{ title: 'Post', headerBackTitle: 'Feed' }} />
       <FocusAwareStatusBar />
-      <Text className="text-xl">{data.title}</Text>
-      <Text>{data.body} </Text>
+      <Text className="text-xl">{data?.title}</Text>
+      <Text>{data?.body} </Text>
     </View>
   );
 }

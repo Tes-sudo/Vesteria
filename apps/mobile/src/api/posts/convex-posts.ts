@@ -1,33 +1,50 @@
-import { useQuery, useMutation } from "convex/react";
-import { api } from "@monorepo/convex";
-import type { Doc } from "@monorepo/convex";
+import { api } from '@monorepo/convex';
+import { useMutation, useQuery } from 'convex/react';
 
 export function usePosts() {
   const posts = useQuery(api.posts.list);
-  
+
+  // Map Convex data to match the Post type with legacy compatibility
+  const mappedPosts = posts?.map((post) => ({
+    ...post,
+    id: post._id,
+    body: post.content,
+    userId: post.authorId,
+  }));
+
   return {
-    data: posts,
+    data: mappedPosts,
     isLoading: posts === undefined,
-    error: posts === null ? new Error("Failed to load posts") : null,
+    error: posts === null ? new Error('Failed to load posts') : null,
   };
 }
 
 export function usePost(postId: string) {
   const post = useQuery(
-    api.posts.get, 
-    postId ? { postId: postId as any } : "skip"
+    api.posts.get,
+    postId ? { postId: postId as any } : 'skip'
   );
-  
+
+  // Map Convex data to match the Post type with legacy compatibility
+  const mappedPost = post
+    ? {
+        ...post,
+        id: post._id,
+        body: post.content,
+        userId: post.authorId,
+      }
+    : post;
+
   return {
-    data: post,
+    data: mappedPost,
     isLoading: post === undefined,
-    error: post === null ? new Error("Post not found") : null,
+    error: post === null ? new Error('Post not found') : null,
   };
 }
 
 export function useCreatePost() {
   const createPost = useMutation(api.posts.create);
-  
+
   return {
     mutate: createPost,
     mutateAsync: createPost,
@@ -36,7 +53,7 @@ export function useCreatePost() {
 
 export function useUpdatePost() {
   const updatePost = useMutation(api.posts.update);
-  
+
   return {
     mutate: updatePost,
     mutateAsync: updatePost,
@@ -45,7 +62,7 @@ export function useUpdatePost() {
 
 export function useDeletePost() {
   const deletePost = useMutation(api.posts.remove);
-  
+
   return {
     mutate: deletePost,
     mutateAsync: deletePost,

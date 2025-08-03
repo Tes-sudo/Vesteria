@@ -42,12 +42,15 @@ export default function Onboarding() {
       </View>
       <SafeAreaView className="mt-6">
         <Button
-          label="Let's Get Started "
           onPress={() => {
             setIsFirstTime(false);
             router.replace('/login');
           }}
-        />
+        >
+          <Text className="font-semibold text-primary-foreground">
+            Let's Get Started
+          </Text>
+        </Button>
       </SafeAreaView>
     </View>
   );

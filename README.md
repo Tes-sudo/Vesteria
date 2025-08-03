@@ -2,6 +2,8 @@
 
 A modern real-time monorepo combining Convex backend with React Native (Obytes starter template) featuring magic link authentication and instant data synchronization.
 
+> **Migration Complete!** This project has been successfully migrated from a mock authentication system to Convex Auth with magic links. See [Migration Details](#migration-from-mock-auth) below.
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -147,6 +149,56 @@ cd packages/convex && npx convex logs
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+## 🔄 Migration from Mock Auth
+
+This project has been migrated from a mock authentication system to Convex Auth with magic links. Here's what changed:
+
+### What Was Replaced
+- **Zustand Auth Store** → Convex Auth hooks (`useConvexAuth`, `useAuthActions`)
+- **Mock tokens** → Real JWT tokens from Convex
+- **Password field** → Email-only magic link flow
+- **Local auth state** → Server-managed auth state
+
+### Migration Steps Completed
+1. **Backend Setup**
+   - Added Convex Auth with Resend provider
+   - Configured `auth.ts` and `auth.config.ts`
+   - Set up environment variables (`SITE_URL`, `AUTH_RESEND_KEY`)
+
+2. **Frontend Updates**
+   - Updated login screen to use `useAuthActions` hook
+   - Removed password field from login form
+   - Added loading states during authentication
+   - Updated settings screen logout to use Convex Auth
+
+3. **Deep Linking**
+   - Added `/auth/callback` route for magic link handling
+   - Configured deep link listener in root layout
+   - Set up app scheme (`vesteria://`) for native handling
+
+4. **State Management**
+   - Replaced `useAuth` Zustand store with `useConvexAuth`
+   - Updated auth checks in app layout
+   - Removed mock token generation
+
+### Files Modified
+- `apps/mobile/src/app/login.tsx` - Now uses Convex Auth
+- `apps/mobile/src/components/login-form.tsx` - Email-only, no password
+- `apps/mobile/src/app/(app)/_layout.tsx` - Uses `useConvexAuth`
+- `apps/mobile/src/app/(app)/settings.tsx` - Updated logout
+- `apps/mobile/src/app/auth/callback.tsx` - New route for magic links
+- `packages/convex/convex/auth.ts` - Convex Auth configuration
+- `packages/convex/convex/auth.config.ts` - Auth provider settings
+
+### Next Steps for Production
+1. **Add Resend API Key**: Get from [resend.com](https://resend.com) and set `AUTH_RESEND_KEY`
+2. **Configure sender email**: Update from domain in Resend settings
+3. **Consider OTP**: For better React Native UX, consider switching to OTP
+4. **Add biometric auth**: Use expo-local-authentication
+5. **Implement rate limiting**: Protect against abuse
+
+See [AUTH_ASSESSMENT.md](./AUTH_ASSESSMENT.md) for a detailed security and feature assessment.
 
 ## 📄 License
 
